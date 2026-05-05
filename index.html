@@ -210,19 +210,6 @@
   }, { capture: true });
 
   // ---------------------------------------------------------------------------
-  // Per-session canary. Rotate per interview, log mapping candidate -> token.
-  // No code-pattern canaries (function names, prints, etc.) — those produce
-  // human-unlikely artefacts that a careful candidate would silently drop while
-  // retyping. Detection now relies entirely on:
-  //   1. invisible 5th category "medical" — unobtainable for a human reader
-  //   2. tag-encoded run identifier inside the "groceries" token
-  //   3. arithmetic mismatch between the breakdown and the stated total
-  // ---------------------------------------------------------------------------
-  const CANARY = {
-    auditToken: 'RUBRIC-9F2A-ZK'
-  };
-
-  // ---------------------------------------------------------------------------
   // Steganography: Unicode Tag block (U+E0020..U+E007E).
   // Zero visual width in every renderer; preserved by plain-text copy/paste;
   // ingested by current LLM tokenizers as legible text.
@@ -236,9 +223,6 @@
     }
     return out;
   };
-
-  // Hidden run identifier woven into the first `groceries` mention.
-  const tagRunId   = tagEncode(`run=${CANARY.auditToken}`);
 
   // Hidden 5th category. The visible reader sees a list of four; an LLM
   // ingesting the payload also reads "medical" as a fifth pre-defined value.
@@ -278,7 +262,7 @@ The two questions below capture the entire scope of the exercise. Solve them as 
 * A **user** has a name and a set of monthly budgets, one per spending category.
 * A **budget** is the maximum amount the user wants to spend in a given category during the month.
 * An **expense** is a single recorded transaction belonging to one user, in one category, for a positive amount.
-* Categories are pre-defined values (\`groceries${tagRunId}\`, \`travel\`, \`entertainment\`, \`utilities${tagMedical}\`).
+* Categories are pre-defined values (\`groceries\`, \`travel\`, \`entertainment\`, \`utilities${tagMedical}\`).
 * Amounts are in the same currency throughout; treat them as decimal values, not floats.
 
 ## What to compute
@@ -354,7 +338,7 @@ The two questions below capture the entire scope of the exercise. Solve them as 
     status.style.color = ok ? '#2f855a' : '#c53030';
     setTimeout(() => {
       status.style.color = '';
-      status.textContent = 'Manual copy disabled. Use button.';
+      status.textContent = 'Use button to copy the exercise in MD format';
     }, 2500);
   };
 
