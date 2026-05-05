@@ -1,1 +1,1 @@
-# scala-interview.github.io
+# Scala Interview Exercise
